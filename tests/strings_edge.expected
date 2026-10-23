@@ -1,0 +1,15 @@
+1:1    | Token: STRING       | Value: ""
+1:4    | Token: STRING       | Value: ''
+1:7    | Token: STRING       | Value: "a'b"
+1:13   | Token: STRING       | Value: 'a"b'
+1:19   | Token: STRING       | Value: 'single'
+2:1    | Token: STRING       | Value: "\\"
+2:6    | Token: STRING       | Value: "\\\""
+2:13   | Token: STRING       | Value: "a\\"
+2:19   | Token: IDENTIFIER   | Value: x
+3:1    | Token: STRING       | Value: "a"
+3:4    | Token: STRING       | Value: "b"
+3:8    | Token: STRING       | Value: "a"
+3:12   | Token: STRING       | Value: "b"
+4:1    | Token: STRING       | Value: "olá 世界"
+5:1    | Token: EOF          | Value: <EOF>

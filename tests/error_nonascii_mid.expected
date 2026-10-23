@@ -1,0 +1,4 @@
+1:1    | Token: IDENTIFIER   | Value: x
+1:3    | Token: ASSIGN       | Value: =
+1:5    | Token: IDENTIFIER   | Value: caf
+1:8    | Token: ERROR        | Value: Ã

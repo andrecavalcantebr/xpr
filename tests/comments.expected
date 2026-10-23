@@ -1,0 +1,16 @@
+1:1    | Token: NUMBER       | Value: 1
+2:1    | Token: NUMBER       | Value: 2
+2:15   | Token: NUMBER       | Value: 3
+2:22   | Token: NUMBER       | Value: 4
+2:30   | Token: NUMBER       | Value: 5
+5:15   | Token: NUMBER       | Value: 6
+6:1    | Token: IDENTIFIER   | Value: a
+6:2    | Token: SLASH        | Value: /
+6:3    | Token: IDENTIFIER   | Value: b
+6:5    | Token: IDENTIFIER   | Value: a
+6:7    | Token: SLASH        | Value: /
+6:9    | Token: IDENTIFIER   | Value: b
+7:1    | Token: NUMBER       | Value: 7
+7:24   | Token: NUMBER       | Value: 8
+8:1    | Token: NUMBER       | Value: 9
+8:36   | Token: EOF          | Value: <EOF>

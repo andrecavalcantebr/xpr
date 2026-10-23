@@ -1,0 +1,139 @@
+# /*
+#    FILE: errors.toml
+#    DESC: Required negative diagnostics; columns count Unicode codepoints.
+#    AUTHOR: Andre Cavalcante with Sonnet 5.5 partner
+#    DATE: October, 2026
+#    LICENSE: GPL-v3
+# */
+
+[[case]]
+file = "e01_divisao_zero.x"
+error = "div-by-zero"
+line = 9
+column = 3
+
+[[case]]
+file = "e02_var_indefinida.x"
+error = "undefined-identifier"
+line = 9
+column = 7
+
+[[case]]
+file = "e03_sintaxe.x"
+error = "syntax-error"
+line = 9
+column = 5
+
+[[case]]
+file = "e04_tamanho_listas.x"
+error = "size-mismatch"
+line = 9
+column = 14
+
+[[case]]
+file = "e05_escopo_vaza.x"
+error = "undefined-identifier"
+line = 9
+column = 19
+
+[[case]]
+file = "e06_string_aberta.x"
+error = "syntax-error"
+line = 9
+column = 7
+
+[[case]]
+file = "e07_nao_e_funcao.x"
+error = "not-a-function"
+line = 9
+column = 10
+
+[[case]]
+file = "e09_multiplicacao_estrita.x"
+error = "div-by-zero"
+line = 9
+column = 8
+
+[[case]]
+file = "e10_unario_separado.x"
+error = "syntax-error"
+line = 9
+column = 4
+
+[[case]]
+file = "e11_mais_separado.x"
+error = "syntax-error"
+line = 9
+column = 1
+
+[[case]]
+file = "e12_unario_nova_linha.x"
+error = "syntax-error"
+line = 9
+column = 1
+
+[[case]]
+file = "e13_unario_comentario.x"
+error = "syntax-error"
+line = 9
+column = 1
+
+[[case]]
+file = "e14_ponto_virgula_programa.x"
+error = "syntax-error"
+line = 9
+column = 2
+
+[[case]]
+file = "e15_bloco_sem_terminador.x"
+error = "syntax-error"
+line = 9
+column = 3
+
+[[case]]
+file = "e16_mudanca_tipo.x"
+error = "type-mismatch"
+line = 9
+column = 14
+
+[[case]]
+file = "e17_indice_invalido.x"
+error = "index-out-of-range"
+line = 9
+column = 7
+
+[[case]]
+file = "e18_comentario_aberto.x"
+error = "syntax-error"
+line = 9
+column = 3
+
+[[case]]
+file = "e19_parse_antes_execucao.x"
+error = "syntax-error"
+line = 11
+column = 26
+
+[[case]]
+file = "e20_coluna_utf8.x"
+error = "undefined-identifier"
+line = 9
+column = 8
+
+[[case]]
+file = "e21_captura_indefinida.x"
+error = "undefined-identifier"
+line = 9
+column = 24
+
+[[case]]
+file = "e22_bloco_interno_sem_terminador.x"
+error = "syntax-error"
+line = 9
+column = 12
+
+[[case]]
+file = "e23_bloco_programa_com_terminador.x"
+error = "syntax-error"
+line = 9
+column = 7

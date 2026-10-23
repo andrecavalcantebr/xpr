@@ -1,0 +1,11 @@
+1:1    | Token: BOOLEAN      | Value: true
+2:1    | Token: BOOLEAN      | Value: false
+3:1    | Token: BOOLEAN      | Value: true
+3:6    | Token: OR           | Value: or
+3:9    | Token: BOOLEAN      | Value: false
+4:1    | Token: NOT          | Value: not
+4:5    | Token: BOOLEAN      | Value: true
+5:1    | Token: BOOLEAN      | Value: true
+5:6    | Token: AND          | Value: and
+5:10   | Token: BOOLEAN      | Value: false
+6:1    | Token: EOF          | Value: <EOF>

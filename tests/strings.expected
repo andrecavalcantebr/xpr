@@ -1,0 +1,7 @@
+1:1    | Token: STRING       | Value: "Hello World"
+2:1    | Token: STRING       | Value: "String with \"quotes\""
+3:1    | Token: STRING       | Value: "String with 'single quotes'"
+4:1    | Token: STRING       | Value: "Line 1\nLine 2"
+5:1    | Token: STRING       | Value: "Line with hard
+ newline"
+7:1    | Token: EOF          | Value: <EOF>

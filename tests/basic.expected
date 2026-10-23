@@ -1,0 +1,4 @@
+1:1    | Token: NUMBER       | Value: 123
+1:5    | Token: PLUS         | Value: +
+1:7    | Token: NUMBER       | Value: 45.67
+2:1    | Token: EOF          | Value: <EOF>

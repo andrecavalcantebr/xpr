@@ -1,0 +1,9 @@
+1:1    | Token: IIF          | Value: iif
+1:4    | Token: LPAREN       | Value: (
+1:5    | Token: BOOLEAN      | Value: true
+1:9    | Token: COMMA        | Value: ,
+1:11   | Token: STRING       | Value: "yes"
+1:16   | Token: COMMA        | Value: ,
+1:18   | Token: STRING       | Value: "no"
+1:22   | Token: RPAREN       | Value: )
+2:1    | Token: EOF          | Value: <EOF>

@@ -1,0 +1,2 @@
+1:1    | Token: IDENTIFIER   | Value: a
+1:3    | Token: ERROR        | Value: !

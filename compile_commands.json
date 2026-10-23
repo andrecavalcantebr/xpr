@@ -1,0 +1,120 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=c2x",
+      "-I",
+      "./inc",
+      "-I",
+      "./src",
+      "-I",
+      "./vendor/tgc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-DDEBUG",
+      "-c",
+      "-o",
+      "obj/lexer.o",
+      "./src/lexer.c"
+    ],
+    "directory": "/home/andre/code/cprojects/gemma31b/xpr",
+    "file": "/home/andre/code/cprojects/gemma31b/xpr/src/lexer.c",
+    "output": "/home/andre/code/cprojects/gemma31b/xpr/obj/lexer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=c2x",
+      "-I",
+      "./inc",
+      "-I",
+      "./src",
+      "-I",
+      "./vendor/tgc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-DDEBUG",
+      "-c",
+      "-o",
+      "obj/loader.o",
+      "./src/loader.c"
+    ],
+    "directory": "/home/andre/code/cprojects/gemma31b/xpr",
+    "file": "/home/andre/code/cprojects/gemma31b/xpr/src/loader.c",
+    "output": "/home/andre/code/cprojects/gemma31b/xpr/obj/loader.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=c2x",
+      "-I",
+      "./inc",
+      "-I",
+      "./src",
+      "-I",
+      "./vendor/tgc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-DDEBUG",
+      "-c",
+      "-o",
+      "obj/main.o",
+      "./src/main.c"
+    ],
+    "directory": "/home/andre/code/cprojects/gemma31b/xpr",
+    "file": "/home/andre/code/cprojects/gemma31b/xpr/src/main.c",
+    "output": "/home/andre/code/cprojects/gemma31b/xpr/obj/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=c2x",
+      "-I",
+      "./inc",
+      "-I",
+      "./src",
+      "-I",
+      "./vendor/tgc",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-DDEBUG",
+      "-c",
+      "-o",
+      "obj/parser.o",
+      "./src/parser.c"
+    ],
+    "directory": "/home/andre/code/cprojects/gemma31b/xpr",
+    "file": "/home/andre/code/cprojects/gemma31b/xpr/src/parser.c",
+    "output": "/home/andre/code/cprojects/gemma31b/xpr/obj/parser.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=c2x",
+      "-I",
+      "./inc",
+      "-I",
+      "./src",
+      "-I",
+      "./vendor/tgc",
+      "-g",
+      "-O0",
+      "-DDEBUG",
+      "-c",
+      "-o",
+      "obj/tgc.o",
+      "./vendor/tgc/tgc.c"
+    ],
+    "directory": "/home/andre/code/cprojects/gemma31b/xpr",
+    "file": "/home/andre/code/cprojects/gemma31b/xpr/vendor/tgc/tgc.c",
+    "output": "/home/andre/code/cprojects/gemma31b/xpr/obj/tgc.o"
+  }
+]
