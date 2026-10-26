@@ -67,6 +67,7 @@ Source loader_load_file(const char *filename) {
     strcpy(node->filename, filename);
     node->source.content = (const unsigned char *)buffer;
     node->source.size = (size_t)length;
+    node->source.filename = filename;
     node->next = loaded_files;
     loaded_files = node;
 

@@ -7,3 +7,7 @@
 */
 
 #include "diagnostic.h"
+
+Diagnostic table[] = {
+  (Diagnostic){"[type-mismatch]", ERROR, "Error near token %.*s. [type-mimatch]"}
+};

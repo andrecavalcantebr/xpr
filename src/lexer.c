@@ -13,13 +13,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void lexer_init(Lexer *l, Source source) {
-    l->source = source;
-    l->cur = source.content;
-    l->line = 1;
-    l->col = 1;
-}
-
 static inline unsigned char peek(Lexer *l) {
     return *(l->cur);
 }
@@ -197,8 +190,7 @@ static lex_status parse_string(Lexer *l) {
     return LEX_NOT_EXISTS;
 }
 
-Token lexer_next_token(Lexer *l) {
-
+static Token next_token(Lexer *l) {
     assert(l != NULL);
 
     Token token = {0},
@@ -352,3 +344,30 @@ Token lexer_next_token(Lexer *l) {
         return token;
     }
 }
+
+// ** Public API
+
+void lexer_init(Lexer *l, Source source) {
+    l->source = source;
+    l->cur = source.content;
+    l->line = 1;
+    l->col = 1;
+}
+
+Token lexer_next_token(Lexer *l) {
+    return next_token(l);
+}
+
+Token lexer_peek(Lexer *l) {
+    Lexer marked = lexer_mark(l);
+    Token tok = next_token(l);
+    lexer_restore(l, marked);
+    return tok;
+}
+
+Lexer lexer_mark(Lexer *l) {
+    return *l;
+}
+void lexer_restore(Lexer *l, Lexer marked) {
+    *l = marked;
+};

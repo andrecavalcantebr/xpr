@@ -20,6 +20,7 @@
 typedef struct {
     const unsigned char *content;
     size_t size;
+    const char *filename;
 } Source;
 
 #define SOURCE_NULL ((Source){0})

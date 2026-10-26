@@ -10,6 +10,7 @@
 #include "parser.h"
 #include "loader.h"
 #include "tgc.h"
+#include "exceptions.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -26,6 +27,7 @@ typedef enum {
 } ExecutorError;
 
 typedef struct {
+    bool help;
     bool lex_dump;
     bool expression_mode;
     char *target;
@@ -59,26 +61,25 @@ void handle_expression(const char *expr) {
     Source src;
     src.content = (const unsigned char *)expr;
     src.size = strlen(expr);
+    src.filename = "NONAME";
     parser_dump_lexer(src);
 }
 
 // Trata execução de arquivo
-ExecutorError handle_file(const char *filename) {
+void handle_file(const char *filename) {
     Source src = loader_load_file(filename);
     if (src.content == NULL) {
-        return EXEC_FILENOTFOUND;
+        throw(EXEC_FILENOTFOUND);
     }
     parser_dump_lexer(src);
-    return EXEC_NOERROR;
 }
 
-ExecutorError run_app(int argc, char *argv[]) {
+Config parse_args(int argc, char *argv[]) {
     Config cfg = {0};
-
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
             help(argv[0]);
-            return EXEC_NOERROR;
+            cfg.help = true;
         } else if (strcmp(argv[i], "--lex-dump") == 0) {
             cfg.lex_dump = true;
         } else if (strcmp(argv[i], "-x") == 0) {
@@ -87,37 +88,46 @@ ExecutorError run_app(int argc, char *argv[]) {
                 cfg.target = argv[++i];
             } else {
                 fprintf(stderr, "Error: Expression missing after -x\n");
-                return EXEC_ARGERROR;
+                throw(EXEC_ARGERROR);
             }
         } else if (argv[i][0] != '-') {
             cfg.target = argv[i];
         } else {
             fprintf(stderr, "Argument '%s' not recognized!\n", argv[i]);
-            return EXEC_ARGERROR;
+            throw(EXEC_ARGERROR);
         }
     }
-
-    if (cfg.expression_mode && cfg.target) {
-        handle_expression(cfg.target);
-        return EXEC_NOERROR;
-    } else if (cfg.target) {
-        return handle_file(cfg.target);
-    } else if (argc == 1) {
-        handle_interactive();
-        return EXEC_NOERROR;
-    }
-
-    return EXEC_ARGERROR;
+    return cfg;
 }
 
 int main(int argc, char *argv[]) {
     int stack_bottom;
     tgc_start(&global_gc, &stack_bottom);
-    
+
     // Inicializa o loader com o GC global
     loader_init(&global_gc);
 
-    ExecutorError result = run_app(argc, argv);
+    ExecutorError result = EXEC_NOERROR;
+
+    volatile Config cfg = {0};
+    try {
+        cfg = parse_args(argc, argv);
+        if (cfg.expression_mode && cfg.target) {
+            handle_expression(cfg.target);
+        } else if (cfg.target) {
+            handle_file(cfg.target);
+        } else if (argc == 1) {
+            handle_interactive();
+        } else {
+            if(!cfg.help)
+                throw(EXEC_ARGERROR);
+        }
+    } catch(EXEC_FILENOTFOUND) {
+        fprintf(stderr, "File %s not found\n", cfg.target);
+        result = EXEC_FILENOTFOUND;
+    } catch(EXEC_ARGERROR) {
+        result = EXEC_ARGERROR;
+    }
 
     tgc_stop(&global_gc);
     return result;

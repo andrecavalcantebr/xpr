@@ -1,0 +1,6 @@
+# Build artifacts
+obj/
+/xpr
+
+# Generated tooling output (regenerate with ./gen-ccjson.sh)
+/compile_commands.json

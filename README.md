@@ -7,7 +7,7 @@ This is a learning project: the goal is to study compilers by building the inter
 ## Build and test
 - `make`: builds the `xpr` binary.
 - `make test`: builds first, then runs the lexer suite through `tests/run_tests.sh`.
-- `bash tests/run_tests.sh`: checks the existing binary without building (Python 3.11+).
+- `bash tests/run_tests.sh`: checks the existing binary without building.
 - `bash tests/run_tests.sh --suite runtime --list`: lists and validates the future runtime fixtures.
 - `bash tests/run_tests.sh --suite runtime`: runs positive and negative runtime contracts; these require the parser and evaluator to be implemented.
 - `make clean`: removes `obj/` and the binary.

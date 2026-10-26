@@ -22,8 +22,6 @@ typedef struct {
     char *message;
 } Diagnostic;
 
-Diagnostic table[] = {
-  (Diagnostic){"[type-mismatch]", ERROR, "Error near token %.*s. [type-mimatch]"}
-};
+extern Diagnostic table[];
 
 #endif // DIAGNOSTIC_H
