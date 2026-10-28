@@ -8,13 +8,15 @@
 
 # Testes do XPR
 
-Os arquivos diretamente em `tests/` verificam o despejo de tokens. Os arquivos
-em `runtime/` descrevem o comportamento desejado do futuro interpretador.
-O executável atual ainda não executa essa segunda suíte corretamente.
+Os arquivos em `lexer/` verificam o despejo de tokens. `parser/` é reservada
+para os futuros despejos da árvore (`--ast`) e casos de sintaxe pura. Os
+arquivos em `runtime/` descrevem o comportamento desejado do futuro
+interpretador. O executável atual ainda não executa essa última suíte
+corretamente.
 
 ## Executar
 
-Requisito do executor de testes: Python 3.11 ou posterior, sem pacotes externos.
+Requisito do executor de testes: bash, awk e coreutils, sem pacotes externos.
 
 ```sh
 bash tests/run_tests.sh
@@ -27,7 +29,9 @@ bash tests/run_tests.sh --suite all
 Esses comandos não compilam o projeto. `make test` continua dependendo da
 construção do executável; o esqueleto atual do parser ainda impede essa construção.
 `--binary /caminho/xpr` ou a variável `XPR` permitem selecionar outro executável.
-Quando existir um modo léxico explícito, usar `--lexer-arg=--lex`.
+Quando existir um modo léxico explícito, usar `--lexer-arg=--lex`. A suíte `parser`
+ainda não tem casos: `--suite parser` devolve `no matching tests` até a etapa 1
+do plano popular `parser/`.
 
 `--list` verifica o catálogo e os arquivos esperados, sem comprovar a sintaxe
 ou a semântica dos programas XPR. O limite padrão é cinco segundos por caso;
@@ -92,6 +96,10 @@ o bloco externo termina o programa sem `;`. O erro esperado é a leitura de `z`
 fora do seu escopo, nunca um erro de ponto e vírgula.
 
 ## Auditoria dos testes léxicos
+
+Na reorganização de 23/10/2026, os fixtures da raiz foram movidos para `lexer/`
+com `git mv`, sem nenhuma alteração de conteúdo; a auditoria abaixo se aplica
+aos arquivos dessa pasta.
 
 Os 24 `.expected` preexistentes foram comparados byte a byte com o executável
 existente e preservados. Eles são expectativas de tokenização, não provas de

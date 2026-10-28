@@ -40,7 +40,7 @@ Regras que valem em todas as etapas:
 
 ## Testes por etapa
 
-O aluno escreve os casos em `tests/NOME.x` com `tests/NOME.expected`; `make test` roda `tests/run_tests.sh`. Sugestão de cobertura mínima:
+O aluno escreve os casos na suíte correspondente: `tests/lexer/NOME.x` com `tests/lexer/NOME.expected`, ou contratos de execução em `tests/runtime/` (`cases/`, `expected/`, `errors/` e `errors.toml`); `make test` roda `tests/run_tests.sh`. Sugestão de cobertura mínima:
 
 | Etapa | O que testar |
 |---|---|
@@ -73,4 +73,4 @@ Observação: hoje os `.expected` léxicos comparam com o despejo de tokens de `
 - `src/value.c`, `src/value.h`, `src/arena.c`, `src/arena.h` (nomes sugeridos)
 - `src/exec.c`, `src/builtins.c`
 - `src/main.c`
-- `tests/*.x` e `tests/*.expected`
+- `tests/lexer/*.x` e `tests/lexer/*.expected` (contratos de execução em `tests/runtime/`)

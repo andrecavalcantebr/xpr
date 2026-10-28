@@ -1,7 +1,7 @@
 #!/bin/bash
 # /*
 #    FILE: run_tests.sh
-#    DESC: Run XPR lexer and runtime contract tests using bash and coreutils only.
+#    DESC: Run XPR lexer, parser and runtime contract tests using bash and coreutils only.
 #    AUTHOR: Andre Cavalcante with Sonnet 5.5 partner
 #    DATE: October, 2026
 #    LICENSE: GPL-v3
@@ -28,7 +28,7 @@ die() {
 
 usage() {
     cat <<'EOF'
-usage: run_tests.sh [--suite lexer|runtime|all] [--binary PATH] [--case STEM]
+usage: run_tests.sh [--suite lexer|parser|runtime|all] [--binary PATH] [--case STEM]
                     [--lexer-arg ARG]... [--list] [--timeout SECONDS]
 EOF
 }
@@ -52,8 +52,8 @@ while [ $# -gt 0 ]; do
 done
 
 case $SUITE in
-    lexer|runtime|all) ;;
-    *) die "invalid --suite '$SUITE' (expected lexer, runtime or all)" ;;
+    lexer|parser|runtime|all) ;;
+    *) die "invalid --suite '$SUITE' (expected lexer, parser, runtime or all)" ;;
 esac
 
 awk -v t="$TIMEOUT" 'BEGIN { exit !(t > 0) }' || die "--timeout must be positive"
@@ -70,11 +70,22 @@ add_case() {
 
 collect_lexer() {
     local src exp
-    for src in "$TESTS"/*.x; do
-        [ -e "$src" ] || die "no lexer fixtures in tests/"
+    for src in "$TESTS"/lexer/*.x; do
+        [ -e "$src" ] || die "no lexer fixtures in tests/lexer/"
         exp=${src%.x}.expected
         [ -f "$exp" ] || die "missing expected output for $(basename -- "$src")"
-        add_case lexer "tests/$(basename -- "$src")" "tests/$(basename -- "$exp")" ""
+        add_case lexer "tests/lexer/$(basename -- "$src")" "tests/lexer/$(basename -- "$exp")" ""
+    done
+}
+
+collect_parser() {
+    # Reserved for --ast dumps and pure-syntax fixtures; empty for now.
+    local src exp
+    for src in "$TESTS"/parser/*.x; do
+        [ -e "$src" ] || return 0
+        exp=${src%.x}.expected
+        [ -f "$exp" ] || die "missing expected output for $(basename -- "$src")"
+        add_case parser "tests/parser/$(basename -- "$src")" "tests/parser/$(basename -- "$exp")" ""
     done
 }
 
@@ -135,8 +146,10 @@ EOF
 
 case $SUITE in
     lexer)   collect_lexer ;;
+    parser)  collect_parser ;;
     runtime) collect_runtime ;;
     all)     collect_lexer
+             collect_parser
              collect_runtime ;;
 esac
 

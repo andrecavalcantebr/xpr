@@ -20,11 +20,12 @@ Estão em `docs/xpr-specs.md`. Resumo dos pontos centrais:
 | Execução | Duas fases: o arquivo inteiro vira AST, depois é executado |
 | Tipos | número (`double`), string UTF-8, booleano, lista, função |
 | Função | `fn(x){...}`, 1 argumento (lista para vários), captura congelada na definição |
+| Closures | Captura por valor: variáveis livres (incluindo o próprio nome) congeladas por cópia na definição; a autorreferência é early binding e o corpo nunca consulta o escopo na chamada |
 | Valores | Sem referências: toda atribuição e passagem de parâmetro copia |
 | Memória | AST em `tgc`; valores em arenas hierárquicas (ver `AGENTS.md`) |
 | Listas | Operações elemento a elemento, recursivas; sem broadcast de escalar |
 | Erros | Tipo + arquivo + linha + coluna (codepoints); 3 categorias de parse e 7 categorias de execução na tabela da spec |
-| Saída | `print` não acrescenta newline; `\n` deve ser explícito |
+| Saída | `print` sem newline automático; `\n` deve ser explícito |
 | Terminadores | Statements dentro de blocos exigem `;`; a expressão que constitui o arquivo termina sem `;` |
 | Unário numérico | Sinal adjacente ao literal: `2 * -3` válido; `2 *- 3` inválido |
 
@@ -72,11 +73,23 @@ Driver e integração, para estudo a partir das anotações pessoais:
 - **Ajustado:** número de categorias de erro e lista de dúvidas da spec. Não há referência a `sin`/`range` na versão atual; um nome da linguagem como `exp` também não implica, por si só, colisão com um símbolo C da libc.
 - **Continuidade:** criado `docs/MEMORIA.md` e referenciado no `AGENTS.md`, incluindo a regra de ler e preservar as anotações pessoais. Trata-se de memória local do projeto.
 
+### 2026-10-23: fechamento da semântica de autorreferência (§4.5)
+- **Discussão:** o exemplo `g = fat; fat = fn(x){999;}; g(5)` da spec só devolve 120 com early binding; sob late binding (consulta à variável na chamada), devolveria 999. A decisão já existia na frase "the self-reference binds to the function being created", mas a metáfora do "ponteiro para AST node" e a ausência do contrafactual deixavam o comportamento ambíguo.
+- **Feito na spec:** §4.5 reescrito sem exceções — closure = nó da definição + cópias congeladas das variáveis livres; o self-name é uma variável livre congelada na criação (early binding, análogo à forward declaration); contrafactual late binding explícito; captura indireta de função (`h = fn(x){fat(x);}`) coberta pela regra geral. O exemplo foi corrigido para `x * fat(x-1)`: o corpo antigo devolvia 1, não 120. O bullet de recursão mútua passou a ser consequência da regra geral.
+- **Testes:** novo caso positivo `tests/runtime/cases/22_self_rebind.x` cobrindo o par obrigatório `g(5) → 120.00` / `fat(5) → 999.00`, a captura indireta (`h(3)` estável após novo rebind) e a integridade da closure original. `20_capturas_parametros` cobria só a primeira metade do contrato. Catálogo: 22 positivos + 22 negativos (`--suite runtime --list` → Total: 44); suíte léxica permanece 25/25. Execução semântica dos casos continua dependente do futuro avaliador.
+- **Implicação de implementação (etapa 6):** a closure carrega a tabela de valores congelados com um slot reservado para o self-name, preenchido ao fim da avaliação da definição; a auto-chamada lê o slot, nunca o escopo global.
+
+### 2026-10-23: reorganização da pasta de testes
+- **Motivação:** os fixtures léxicos moravam na raiz de `tests/` por razões históricas (o lexer veio antes da suíte de runtime). Com a entrada do parser (etapa 1, dumps de `--ast`), a raiz ficaria misturada.
+- **Feito:** `tests/lexer/` recebe os 25 pares `.x`/`.expected` (movidos com `git mv`, conteúdo intacto); `tests/parser/` criada como reserva para despejos de `--ast` e sintaxe pura; `run_tests.sh` ganha `--suite parser` (sem casos por ainda: `--list` devolve "no matching tests") e `collect_lexer` aponta para `tests/lexer/`.
+- **Documentação:** `tests/README.md`, `README.md` e `plano.md` atualizados para as novas convenções. Os negativos sintáticos permanecem em `runtime/errors/`: são contratos de execução (o parse antecede a execução), não fixtures de parser.
+- **Validação:** `--suite all --list` → Total: 69 (25 léxicos + 44 de runtime: 22 positivos e 22 negativos); suíte léxica 25/25 com comparação exata; `git status` mostra as renomeações preservadas.
+
 ## Registro do André 23/10/2026
 
 - Desenvolvendo o loader e o driver
   - cuidado aqui porque o parser pode chamar recursivamente o loader
-  - se já tiver carregado, simplemeste executa
+  - se já tiver carregado, simplemente executa
   - problema: pode haver recursão infinita na execução (quem pega? penso que o parser que deve parsear toda a expressão antes da execução - estudar o problema e a solução)
 - Desenvolver o modo prompt
 - Desenvolver o modo stdin: `cat script.x | xpr` (verificar se não conflita com o modo prompt - acho que não)

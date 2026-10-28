@@ -19,7 +19,7 @@ This is a learning project: the goal is to study compilers by building the inter
 ## Project Structure
 - `src/`: Source code and headers.
 - `vendor/tgc/`: `tgc` garbage collector, used for the AST.
-- `tests/`: Test cases (`.x` programs and `.expected` output).
+- `tests/`: Test suites — `lexer/` (token dumps), `parser/` (future `--ast`/syntax fixtures) and `runtime/` (execution contracts).
 - `docs/`: `xpr-specs.md` (language specification), `plano.md` (study plan), `PROGRESSO.md` (progress log).
 - `Makefile`: Build system.
 

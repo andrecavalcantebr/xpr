@@ -1,0 +1,2 @@
+# Reserved for parser fixtures (--ast dumps and pure-syntax cases), planned
+# for stages 1-2 of docs/plano.md. See tests/README.md for suite conventions.
