@@ -245,23 +245,40 @@ print(f19(1));   //prints 20.00
 g = fn(x){ x + c; };   // error: c is not defined yet
 ```
 
-- A function variable is just a "pointer" to the AST node of the function definition: reassigning the variable later does not change functions already created.
+- A function value is a **closure**: its definition node plus the values of all
+  free variables, frozen **by copy** at definition time (as in the `f9`/`f19`
+  example above). Reassigning a variable later never changes a closure that
+  already captured it.
+
+- Inside `name = fn(...){ ... }`, the name being defined counts as a free
+  variable that is already resolved: the closure freezes a reference to the
+  function being created (early binding), like a forward declaration in C.
+  The body never looks `name` up in the scope at call time. Consequences:
 
 ```c
-fat = fn(x){ iif(x<=1, 1, fat(x-1)); };   // recursive body
+fat = fn(x){ iif(x<=1, 1, x * fat(x-1)); };   // recursive body
 g = fat;
-fat = fn(x){ 999; };   //this is a new function
-g(5);                  // 120, because g is point to first function
+fat = fn(x){ 999; };   // this is a new function
+g(5);                  // 120: the recursive call was bound to the first
+                       // function at definition time
+fat(5);                // 999: this call goes through the variable, which
+                       // now holds the new function
 ```
 
-- Exception: while `name = fn(...){ ... }` is being evaluated, name counts as defined inside the body — like a forward declaration in C. The self-reference binds to the function being created, not to the variable.
+  If the body resolved `fat` through the variable at call time (late
+  binding), `g(5)` would evaluate `fat(4)` with the new function and
+  return `999`.
+
+- A function captured as an ordinary free variable follows the same rule:
+  `h = fn(x){ fat(x); };` keeps calling the function that existed when `h`
+  was defined, even if `fat` is reassigned afterwards.
 
 - Parameters shadow globals: in `fn(c){ c + 1; }` the c in the body is the
 parameter.
 
-- Mutual recursion is not possible: in `even = fn(x){ ... odd(...) ...; };`
-the name odd is undefined at that moment and is not the pending name, so
-it errors.
+- Mutual recursion is not possible: every free name is resolved at definition
+time, and `odd` inside `even = fn(x){ ... odd(...) ...; };` is not the
+pending name, so it raises `undefined-identifier`.
 
 ### 4.6. Scope
 
